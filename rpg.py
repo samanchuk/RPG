@@ -11,14 +11,47 @@ rpg_map = {'1': {'name': 'loc1', 'description': 'location 1', 'exit': {'south': 
 char = {'position': '1'}
 
 
-def check_next_step(direction):
-    global char
+def step(direction):
     try:
         move = rpg_map[char['position']]['exit'][direction]
         char['position'] = move
+        print('\nYou moved to: ', direction)
+        location_info()
     except KeyError:
-        return False
+        print('Direction \"{0}\" is forbidden'.format(direction))
 
-print('Current position: ', char['position'])
-check_next_step('east')
-print('New position: ', char['position'])
+
+def location_info(command=None):
+    room_id = char['position']
+    print('Location name:\n\t{0}\t\nlocation description:\n\t{1}'.format(rpg_map[room_id]['name'],
+                                                                         rpg_map[room_id]['description']))
+
+
+def possible_move(command=None):
+    current_room = char['position']
+    exit_list = rpg_map[current_room]['exit'].keys()
+    print('See possible exit(s):')
+    for exit_direction in exit_list:
+        print('{0} - {1}'.format(exit_direction,
+                                 rpg_map[rpg_map[current_room]['exit'].get(exit_direction)]['description']))
+
+
+def all_commands(command=None):
+   print(' '.join(handlers.keys()))
+
+
+handlers = {'scan': location_info, 'exits': possible_move, 'north': step, 'south': step, 'east': step, 'west': step,
+            'commands': all_commands}
+
+
+def main():
+    location_info()
+    while True:
+        command = input('Enter command: ')
+        if command.split()[0] in handlers:
+            handlers[command.split()[0]](command)
+        else:
+            print('Command "{0}" is not found'.format(command))
+
+
+main()
