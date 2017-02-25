@@ -16,9 +16,9 @@ def check_next_step(direction):
     try:
         move = rpg_map[char['position']]['exit'][direction]
         char['position'] = move
-    except KeyError:git ini 
+    except KeyError:
         return False
 
 print('Current position: ', char['position'])
-check_next_step('west')
+check_next_step('east')
 print('New position: ', char['position'])
