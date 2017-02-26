@@ -1,15 +1,28 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
 
+from random import randint
+
 rpg_map = {
-    '1': {'name': 'loc1', 'description': 'location 1', 'exit': {'south': '3', 'east': '2'}, 'inventory': ['book']},
-    '2': {'name': 'loc2', 'description': 'location 2', 'exit': {'west': '1', 'south': '4'}, 'inventory': ['table']},
-    '3': {'name': 'loc3', 'description': 'location 3', 'exit': {'east': '4', 'north': '1'}, 'inventory': ['sofa']},
-    '4': {'name': 'loc4', 'description': 'location 4', 'exit': {'north': '2', 'west': '3'}, 'inventory': ['chair']},
+    '1': {'name': 'loc1', 'description': 'location 1', 'exit': {'south': '3', 'east': '2'}, 'inventory': ['book'],
+          'npc': ['ork']},
+    '2': {'name': 'loc2', 'description': 'location 2', 'exit': {'west': '1', 'south': '4'}, 'inventory': ['table'],
+          'npc': ['ork', 'gnome']},
+    '3': {'name': 'loc3', 'description': 'location 3', 'exit': {'east': '4', 'north': '1'}, 'inventory': ['sofa'],
+          'npc': ['elf']},
+    '4': {'name': 'loc4', 'description': 'location 4', 'exit': {'north': '2', 'west': '3'}, 'inventory': ['chair'],
+          'npc': ['gnome', 'elf']},
 }
 
 # {'name', loc_id}
-char = {'position': '1', 'inventory': ['book', 'cup', 'pencil']}
+char = {'position': '1', 'inventory': ['book', 'cup', 'pencil'], 'health': 300, 'attack_type': {'spit': [1, 20]}}
+
+# npc players list
+npc = {'ork': {'name': 'Bold', 'description': 'Bold Sits on floor', 'health': 100, 'attack': {'sward': [1, 20]}},
+       'elf': {'name': 'Legolas', 'description': 'Legolas Sits on chair', 'health': 100, 'attack': {'arch': [1, 20]}},
+       'gnome': {'name': 'Gimley', 'description': 'Gimley Sits on window', 'health': 100,
+                 'attack_type': {'hit': [1, 20]}}
+       }
 
 
 def step(direction):
@@ -74,10 +87,13 @@ def throw(command=None):
             print('What do you want to throw?')
 
 
-def show_room(comamnd=None):
+def show_room(command=None):
     if rpg_map[char['position']]['inventory']:
         print('On floor placed:')
         print('\n'.join(rpg_map[char['position']]['inventory']))
+        for room_npc in rpg_map[char['position']]['npc']:
+            print(npc[room_npc]['description'])
+
 
 handlers = {'scan': location_info, 'exits': possible_move, 'north': step, 'south': step, 'east': step, 'west': step,
             'take': take, 'user_inv': users_inventory, 'throw': throw, 'show_room': show_room, 'commands': all_commands}
@@ -86,10 +102,12 @@ handlers = {'scan': location_info, 'exits': possible_move, 'north': step, 'south
 def main():
     location_info()
     while True:
+        print('Health: [{0}]'.format(char['health']))
         command = input('Enter command: ')
         if command.split()[0] in handlers:
             handlers[command.split()[0]](command)
         else:
             print('Command "{0}" is not found'.format(command))
+
 
 main()
