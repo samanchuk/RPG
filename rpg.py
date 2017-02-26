@@ -43,7 +43,7 @@ def all_commands(command=None):
 
 
 def users_inventory(command=None):
-    print(' '.join(char['inventory']))
+    print('\n'.join(char['inventory']))
 
 
 def take(command=None):
