@@ -28,7 +28,7 @@ rpg_map = {
 char = {'position': '1', 'inventory': ['book', 'cup', 'pencil'], 'health': 300, 'attack_type': {'spit': [1, 20]}}
 
 # npc players list
-npc = {'ork': {'name': 'Bold', 'description': 'Bold Sits on floor he is ork', 'health': 100, 'attack': [1, 20]},
+npc = {'ork': {'name': 'Bolk', 'description': 'Bold Sits on floor he is ork', 'health': 100, 'attack': [1, 20]},
        'elf': {'name': 'Legolas', 'description': 'Legolas Sits on chair he is elf', 'health': 100, 'attack': [1, 20]},
        'gnome': {'name': 'Gimley', 'description': 'Gimley Sits on window he is gnome', 'health': 100,
                  'attack': [1, 20]}
